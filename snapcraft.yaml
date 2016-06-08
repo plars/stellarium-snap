@@ -1,0 +1,40 @@
+name: stellarium-plars
+version: 0.14.90
+summary: Free, open source planetarium software
+description: |
+  Stellarium renders 3D photo-realistic skies in real-time. With Stellarium, you
+  really see what you can see with your eyes, binoculars or a small telescope.
+
+
+apps:
+  stellarium:
+    command: bin/run-stellarium
+    plugs: [unity7, opengl, network]
+
+parts:
+  launcher:
+    plugin: copy
+    files:
+      run-stellarium: bin/run-stellarium
+  stellarium:
+    plugin: cmake
+    source: lp:stellarium
+    build-packages:
+      - build-essential
+      - cmake
+      - debhelper
+      - doxygen
+      - libqt5opengl5-dev
+      - libqt5serialport5-dev
+      - mesa-common-dev
+      - qtbase5-dev
+      - qtdeclarative5-dev
+      - qtdeclarative5-dev-tools
+      - qtscript5-dev
+      - qttools5-dev
+      - qttools5-dev-tools
+      - qtmultimedia5-dev
+      - zlib1g-dev
+    stage-packages:
+      - libqt5gui5
+    after: [qt5conf]
