@@ -11,6 +11,7 @@ apps:
   stellarium:
     command: bin/run-stellarium
     plugs: [unity7, opengl, network, network-bind]
+    aliases: [stellarium]
 
 parts:
   launcher:
