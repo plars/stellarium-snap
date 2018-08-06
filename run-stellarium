@@ -50,7 +50,7 @@ export FONTCONFIG_FILE=$SNAP/etc/fonts/fonts.conf
 
 # Tell libGL where to find the drivers
 if [ -e "/var/lib/snapd/lib/gl/xorg/nvidia_drv.so" ]; then
-	# special case for nvidia
+    # special case for nvidia
     export LIBGL_DRIVERS_PATH=/var/lib/snapd/lib/gl/xorg
     export LD_LIBRARY_PATH=/var/lib/snapd/lib/gl:$LD_LIBRARY_PATH
 else
