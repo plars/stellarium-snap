@@ -49,7 +49,14 @@ export FONTCONFIG_PATH=$SNAP/etc/fonts/config.d
 export FONTCONFIG_FILE=$SNAP/etc/fonts/fonts.conf
 
 # Tell libGL where to find the drivers
-export LIBGL_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
+if [ -e "/var/lib/snapd/lib/gl/xorg/nvidia_drv.so" ]; then
+    # special case for nvidia
+    export LIBGL_DRIVERS_PATH=/var/lib/snapd/lib/gl/xorg
+    export LD_LIBRARY_PATH=/var/lib/snapd/lib/gl:$LD_LIBRARY_PATH
+else
+    export LIBGL_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
+fi
+
 
 # Necessary for the SDK to find the translations directory
 export APP_DIR=$SNAP

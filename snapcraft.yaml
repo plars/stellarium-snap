@@ -22,6 +22,7 @@ parts:
     plugin: cmake
     source: https://github.com/Stellarium/stellarium.git
     source-tag: v0.18.0
+    source-depth: 1
     build-packages:
       - build-essential
       - cmake
