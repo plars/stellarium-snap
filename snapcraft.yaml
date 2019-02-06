@@ -1,5 +1,5 @@
 name: stellarium-plars
-version: 0.18.2
+version: 0.18.3
 summary: Free, open source planetarium software
 description: |
   Stellarium renders 3D photo-realistic skies in real-time. With Stellarium, you
@@ -21,7 +21,7 @@ parts:
   stellarium:
     plugin: cmake
     source: https://github.com/Stellarium/stellarium.git
-    source-tag: v0.18.2
+    source-tag: v0.18.3
     source-depth: 1
     build-packages:
       - build-essential
