@@ -13,20 +13,15 @@ apps:
     plugs: [unity7, opengl, network, network-bind]
 
 parts:
-  launcher:
-    plugin: dump
-    source: .
-    organize:
-      run-stellarium: bin/run-stellarium
   stellarium:
     plugin: cmake
     source: https://github.com/Stellarium/stellarium.git
     source-tag: v0.18.3
     source-depth: 1
+    configflags:
+      - -DCMAKE_BUILD_TYPE=Release
     build-packages:
       - build-essential
-      - cmake
-      - debhelper
       - doxygen
       - libqt5opengl5-dev
       - libqt5serialport5-dev
@@ -40,8 +35,6 @@ parts:
       - qtmultimedia5-dev
       - qtpositioning5-dev
       - zlib1g-dev
-    stage-packages:
-      - libqt5gui5
     after:
-      - qt5conf
       - desktop-qt5
+      - snapcraft-preload
