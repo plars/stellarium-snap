@@ -5,14 +5,61 @@ description: |
   Stellarium renders 3D photo-realistic skies in real-time. With Stellarium, you
   really see what you can see with your eyes, binoculars or a small telescope.
 confinement: strict
+grade: stable
+base: core18
 
 
 apps:
   stellarium:
     command: desktop-launch $SNAP/bin/stellarium
-    plugs: [unity7, opengl, network, network-bind]
+    plugs: [unity7, opengl, network, network-bind, network-manager, home]
 
 parts:
+  snapcraft-preload:
+    source: https://github.com/sergiusens/snapcraft-preload.git
+    plugin: cmake
+    build-packages:
+      - on amd64:
+        - gcc-multilib
+        - g++-multilib
+    stage-packages:
+      - lib32stdc++6
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+      - wget
+    stage-packages:
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5gui5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5 # for loading icon themes which are svg
+      - try: [appmenu-qt5] # not available on core18
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
+      - libgtk2.0-0
+    override-build: |
+      snapcraftctl build
+      URL1="https://launchpad.net/ubuntu/focal/amd64/yaru-theme-icon"
+      URL2="https://launchpad.net/ubuntu/focal/+package/yaru-theme-icon"
+      DEB="$(wget -q -O- $URL1/$(wget -q -O- $URL2|grep amd64|grep href| \
+           sed 's/^.*\///;s/\".*$//'|tail -1)|grep \\.deb|sed 's/^.*href=\"//;s/\".*$//')"
+      wget -q -O- $DEB | dpkg -x - .
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru
+      cp -a usr/share/icons/Yaru/cursors $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru/
+      cp -a usr/share/icons/Yaru/cursor.theme $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru/
   stellarium:
     plugin: cmake
     source: https://github.com/Stellarium/stellarium.git
@@ -35,6 +82,21 @@ parts:
       - qtmultimedia5-dev
       - qtpositioning5-dev
       - zlib1g-dev
+    stage-packages:
+      - libasyncns0
+      - libflac8
+      - libogg0
+      - libpulse0
+      - libqt5multimedia5
+      - libqt5multimediawidgets5
+      - libqt5opengl5
+      - libqt5positioning5
+      - libqt5printsupport5
+      - libqt5script5
+      - libqt5serialport5
+      - libsndfile1
+      - libvorbis0a
+      - libvorbisenc2
     after:
       - desktop-qt5
       - snapcraft-preload
