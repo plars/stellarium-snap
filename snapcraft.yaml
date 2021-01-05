@@ -108,4 +108,3 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru
       cp -a usr/share/icons/Yaru/cursors $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru/
       cp -a usr/share/icons/Yaru/cursor.theme $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru/
-
