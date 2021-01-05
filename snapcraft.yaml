@@ -15,7 +15,8 @@ architectures:
 
 apps:
   stellarium:
-    command: desktop-launch $SNAP/bin/stellarium
+    command: desktop-launch $SNAP/usr/bin/stellarium
+    desktop: usr/share/applications/stellarium.desktop
     plugs: [desktop, wayland, x11, unity7, opengl, network, network-bind, audio-playback, network-manager, home, raw-usb]
 
 parts:
@@ -26,6 +27,7 @@ parts:
     source-depth: 1
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX:PATH=/usr
     build-packages:
       - build-essential
       - doxygen
@@ -63,7 +65,11 @@ parts:
       - libpulse0
     after:
       - desktop-stellarium
+    override-build: |
+      snapcraftctl build
 
+      # Fixup icon location.
+      sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/512x512/apps/stellarium.png|g' $SNAPCRAFT_PART_INSTALL/usr/share/applications/stellarium.desktop
 
   desktop-stellarium:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
@@ -102,3 +108,4 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru
       cp -a usr/share/icons/Yaru/cursors $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru/
       cp -a usr/share/icons/Yaru/cursor.theme $SNAPCRAFT_PART_INSTALL/usr/share/icons/Yaru/
+
