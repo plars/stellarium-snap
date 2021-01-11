@@ -16,7 +16,7 @@ architectures:
 apps:
   stellarium:
     command: desktop-launch $SNAP/usr/bin/stellarium
-    desktop: usr/share/applications/stellarium.desktop
+    desktop: usr/share/applications/org.stellarium.Stellarium.desktop
     plugs: [desktop, wayland, x11, unity7, opengl, network, network-bind, audio-playback, network-manager, home, raw-usb]
 
 parts:
@@ -69,7 +69,7 @@ parts:
       snapcraftctl build
 
       # Fixup icon location.
-      sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/512x512/apps/stellarium.png|g' $SNAPCRAFT_PART_INSTALL/usr/share/applications/stellarium.desktop
+      sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/512x512/apps/stellarium.png|g' $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.stellarium.Stellarium.desktop
 
   desktop-stellarium:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
